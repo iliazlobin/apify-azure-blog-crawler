@@ -7,29 +7,9 @@ await Actor.init();
 const proxyConfiguration = await Actor.createProxyConfiguration();
 
 // https://azure.microsoft.com/en-us/blog/
-// const defaultUrls = [
-//     // 'https://azure.microsoft.com/en-us/blog/category/developer-tools/',
-//     'https://azure.microsoft.com/en-us/blog/category/devops/',
-// ];
 const defaultUrls = [
-    "https://azure.microsoft.com/en-us/blog/category/ai-machine-learning/",
-    "https://azure.microsoft.com/en-us/blog/category/analytics/",
-    "https://azure.microsoft.com/en-us/blog/category/compute/",
-    "https://azure.microsoft.com/en-us/blog/category/containers/",
-    "https://azure.microsoft.com/en-us/blog/category/databases/",
-    "https://azure.microsoft.com/en-us/blog/category/developer-tools/",
-    "https://azure.microsoft.com/en-us/blog/category/devops/",
-    "https://azure.microsoft.com/en-us/blog/category/hybrid-multicloud/",
-    "https://azure.microsoft.com/en-us/blog/category/identity/",
-    "https://azure.microsoft.com/en-us/blog/category/internet-of-things/",
-    "https://azure.microsoft.com/en-us/blog/category/management-and-governance/",
-    "https://azure.microsoft.com/en-us/blog/category/migration/",
-    "https://azure.microsoft.com/en-us/blog/category/mobile/",
-    "https://azure.microsoft.com/en-us/blog/category/networking/",
-    "https://azure.microsoft.com/en-us/blog/category/security/",
-    "https://azure.microsoft.com/en-us/blog/category/serverless/",
-    "https://azure.microsoft.com/en-us/blog/category/storage/",
-    "https://azure.microsoft.com/en-us/blog/category/web/"
+    'https://azure.microsoft.com/en-us/blog/category/ai-machine-learning/',
+    'https://azure.microsoft.com/en-us/blog/category/compute/',
 ];
 
 const {
@@ -55,7 +35,7 @@ const crawler = new PuppeteerCrawler({
     launchContext: {
         useChrome: true,
         launchOptions: {
-            executablePath: '/root/apps/chromium/linux-1211267/chrome-linux/chrome',
+            executablePath: '/home/izlobin/apps/chromium/linux-1270032/chrome-linux/chrome',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         },
     },

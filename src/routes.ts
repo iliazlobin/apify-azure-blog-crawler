@@ -8,7 +8,7 @@ router.addDefaultHandler(async ({ page, log, enqueueLinks }) => {
     log.info(`processing default page: ${url}`);
 
     let {
-        lookBackWindow = 0,
+        lookBackWindow = 1,
         paginationLimit = 1,
     } = await Actor.getInput<{
         lookBackWindow?: number,
@@ -19,7 +19,7 @@ router.addDefaultHandler(async ({ page, log, enqueueLinks }) => {
     log.info(`paginating ${paginationLimit} times`);
     for (let i = 0; i < paginationLimit; i++) {
 
-        const cards = await page.$$eval('article[id]', (els) => els.map(() => ''));
+        const cards = await page.$$eval('article[itemscope]', (els) => els.map(() => ''));
         log.debug(`Number of cards detected: ${cards.length}`);
 
         try {
@@ -33,7 +33,7 @@ router.addDefaultHandler(async ({ page, log, enqueueLinks }) => {
     }
 
     log.info(`parsing all cards`);
-    const cards = await page.$$eval('article[id]', (els) => {
+    const cards = await page.$$eval('article[itemscope]', (els) => {
         const items: any[] = [];
 
         for (const el of els) {
@@ -41,7 +41,7 @@ router.addDefaultHandler(async ({ page, log, enqueueLinks }) => {
             el.querySelectorAll('a[rel="category tag"]').forEach((a) => {
                 tags.push(a.textContent?.trim() ?? '');
             });
-            const date = el.parentNode?.querySelector('time[pubdate]')?.textContent?.trim() ?? '';
+            const date = el.parentNode?.querySelector('time[itemprop="datePublished"]')?.textContent?.trim() ?? '';
             const title = el.parentNode?.querySelector('a[rel="bookmark"]')?.querySelector('span')?.textContent?.trim() ?? '';
             const url = el.parentNode?.querySelector('a[rel="bookmark"]')?.getAttribute('href') ?? '';
             const author = el.parentNode?.querySelector('a[rel="author"]')?.textContent?.trim() ?? '';
@@ -114,7 +114,7 @@ router.addHandler('article', async ({ request, page, log }) => {
     const pageTitle = await page.title();
     const data = request.userData;
 
-    const dateTag = await page.$eval('time[pubdate]', (el) => el.textContent?.trim()) ?? '';
+    const dateTag = await page.$eval('time[datetime]', (el) => el.textContent?.trim()) ?? '';
     const date = new Date(dateTag);
     const dateText = date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
 
